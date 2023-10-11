@@ -40,6 +40,7 @@ const Home = ({ navigation }) => {
             <Image
               source={require('../assets/hero2.jpg')}
               style={{
+                  marginTop: 50,
                   height: 200,
                   width: 200,
               }}

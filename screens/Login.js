@@ -7,12 +7,15 @@ import Checkbox from "expo-checkbox"
 import Button from '../components/Button'
 import axios from 'axios'
 import AsyncStorage from '@react-native-async-storage/async-storage'
+import { useNavigation } from '@react-navigation/native'
 
-const Login = ({navigation}) => {
+const Login = () => {
     const [isPasswordShown, setIsPasswordShown] = useState(false)
     const [isChecked, setIsChecked] = useState(false)
     const [email, setEmail] = useState('')
     const [password, setPassword] = useState('')
+
+    const navigation = useNavigation()
 
     const onLogin = () => {
         axios.post('http://192.168.1.65:5000/api/student-user/login', {

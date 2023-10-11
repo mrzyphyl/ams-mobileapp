@@ -61,6 +61,16 @@ const Attendance = ({navigation}) => {
     fetchUserData()
   }, [])
 
+  const clearStorage = async () => {
+    try {
+      await AsyncStorage.clear()
+      console.log('All items removed from AsyncStorage.')
+      navigation.navigate( 'Welcome' )
+    } catch (error) {
+      console.error(`Error clearing AsyncStorage: ${error}`)
+    }
+  }
+
     return (
     <LinearGradient
       style={{
@@ -76,6 +86,7 @@ const Attendance = ({navigation}) => {
             paddingTop: 5 ,
             justifyContent: 'center', 
             alignItems: 'center',
+            marginTop: 50,
           }}>
             <Text style={{
               fontSize: 50,
@@ -122,12 +133,13 @@ const Attendance = ({navigation}) => {
                 </View>
               ))}
             </View> 
-
+            
             <Button
               title="Log Out"
-              onPress={() => navigation.navigate("QRScanner")}
+              onPress={clearStorage}
               style={{
                 marginTop: 22,
+                marginBottom: 100,
                 width: "100%"
               }}
             />
