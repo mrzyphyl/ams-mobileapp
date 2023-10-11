@@ -1,14 +1,36 @@
 import { View, Text, Image , Pressable, TextInput, TouchableOpacity } from 'react-native'
 import React, { useState } from 'react'
-import { SafeAreaView } from "react-native-safe-area-context";
-import COLORS from '../constants/colors';
-import { Ionicons } from "@expo/vector-icons";
+import { SafeAreaView } from "react-native-safe-area-context"
+import COLORS from '../constants/colors'
+import { Ionicons } from "@expo/vector-icons"
 import Checkbox from "expo-checkbox"
-import Button from '../components/Button';
+import Button from '../components/Button'
+import axios from 'axios'
+import AsyncStorage from '@react-native-async-storage/async-storage'
 
 const Login = ({ navigation }) => {
-    const [isPasswordShown, setIsPasswordShown] = useState(false);
-    const [isChecked, setIsChecked] = useState(false);
+    const [isPasswordShown, setIsPasswordShown] = useState(false)
+    const [isChecked, setIsChecked] = useState(false)
+    const [email, setEmail] = useState('')
+    const [password, setPassword] = useState('')
+
+    const onLogin = () => {
+        axios.post('http://192.168.1.65:5000/api/student-user/login', {
+            email: email, 
+            password: password
+        })
+        .then(async (response) => {
+            try {
+                await AsyncStorage.setItem('userData', JSON.stringify(response.data))
+                console.log('Login successful:', response.data)
+            } catch (error) {
+                console.error('Error saving data to AsyncStorage:', error)
+            }
+        })
+        .catch((error) => {
+            console.error('Error signing up:', error)
+        })
+    }
     
     return (
         <SafeAreaView style={{ flex: 1, backgroundColor: COLORS.white }}>
@@ -49,6 +71,8 @@ const Login = ({ navigation }) => {
                         <TextInput
                             placeholder='Enter your email address'
                             placeholderTextColor={COLORS.black}
+                            onChangeText={(text) => setEmail(text)}
+                            value={email}
                             keyboardType='email-address'
                             style={{
                                 width: "100%"
@@ -77,6 +101,8 @@ const Login = ({ navigation }) => {
                         <TextInput
                             placeholder='Enter your password'
                             placeholderTextColor={COLORS.black}
+                            value={password}
+                            onChangeText={(text) => setPassword(text)}
                             secureTextEntry={isPasswordShown}
                             style={{
                                 width: "100%"
@@ -110,7 +136,7 @@ const Login = ({ navigation }) => {
                         style={{ marginRight: 8 }}
                         value={isChecked}
                         onValueChange={setIsChecked}
-                        color={isChecked ? COLORS.bg : undefined}
+                        color={isChecked ? COLORS.primary : undefined}
                     />
 
                     <Text>Remenber Me</Text>
@@ -119,6 +145,7 @@ const Login = ({ navigation }) => {
                 <Button
                     title="Login"
                     filled
+                    onPress={onLogin}
                     style={{
                         marginTop: 18,
                         marginBottom: 4,

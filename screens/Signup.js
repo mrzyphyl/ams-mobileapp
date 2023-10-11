@@ -14,14 +14,21 @@ const Signup = ({ navigation }) => {
 
     const [date, setDate] = useState(new Date())
     const [showPicker, setShowPicker] = useState(false)
-    const [Birthday, setBirthday] = useState()
+    const [birthday, setBirthday] = useState()
 
     const [formData, setFormData] = useState({
-        FName: '',
-        LName: '',
-        Age: '',
-        UserEmail: '',
-        UserPassword: '',
+        firstname: '', 
+        middlename: '', 
+        lastname: '', 
+        age: '',
+        birthday: birthday,
+        gender: '', 
+        address: '', 
+        user_status: '', 
+        student_number: '', 
+        department: '', 
+        email: '', 
+        password: ''
     })
 
     const toggleDatePicker = () => {
@@ -30,25 +37,36 @@ const Signup = ({ navigation }) => {
 
     const onChange = ({type}, selectedDate) => {
         if (type === 'set') {
-            const currentDate = selectedDate
-            setDate(currentDate)
-
-            if (Platform.OS === 'android'){
-                setBirthday(currentDate.toDateString())
-                toggleDatePicker()
-            }
+            const currentDate = selectedDate;
+    
+            // Format the currentDate to 'YYYY-MM-DD'
+            const formattedDate = `${currentDate.getFullYear()}-${(currentDate.getMonth() + 1)
+                .toString()
+                .padStart(2, '0')}-${currentDate.getDate().toString().padStart(2, '0')}`
+    
+            setDate(currentDate);
+            setBirthday(formattedDate)
+            toggleDatePicker()
         } else {
             toggleDatePicker()
         }
     }
 
     const handleSignUp = () => {
-        axios.post('/api/users', formData, Birthday)
-            .then((response) => {
-            console.log('SignUp successful:', response.data)
-            })
-            .catch((error) => {
-            console.error('Error signing up:', error)
+        axios.post('http://192.168.1.65:5000/api/student-user', {
+            ...formData, birthday
+        })
+        .then((response) => {
+        console.log('SignUp successful:', response.data)
+        setFormData(initialFormData)
+        setDate(new Date())
+        setBirthday('')
+        setIsChecked(false)
+        setIsPasswordShown(false)
+        navigation.navigate("Login")
+        })
+        .catch((error) => {
+        console.error('Error signing up:', error)
         })
     }
     
@@ -92,7 +110,37 @@ const Signup = ({ navigation }) => {
                             <TextInput
                                 placeholder='First Name'
                                 placeholderTextColor={COLORS.black}
-                                onChangeText={(text) => setFormData({ ...formData, FName: text })}
+                                value={formData.firstname}
+                                onChangeText={(text) => setFormData({ ...formData, firstname: text })}
+                                style={{
+                                    width: "100%"
+                                }}
+                            />
+                        </View>
+                    </View>
+
+                    <View style={{ marginBottom: 12 }}>
+                        <Text style={{
+                            fontSize: 16,
+                            fontWeight: 400,
+                            marginVertical: 8
+                        }}>Middle Name</Text>
+
+                        <View style={{
+                            width: "100%",
+                            height: 48,
+                            borderColor: COLORS.black,
+                            borderWidth: 1,
+                            borderRadius: 8,
+                            alignItems: "center",
+                            justifyContent: "center",
+                            paddingLeft: 22
+                        }}>
+                            <TextInput
+                                placeholder='Last Name'
+                                placeholderTextColor={COLORS.black}
+                                value={formData.middlename}
+                                onChangeText={(text) => setFormData({ ...formData, middlename: text })}
                                 style={{
                                     width: "100%"
                                 }}
@@ -120,7 +168,8 @@ const Signup = ({ navigation }) => {
                             <TextInput
                                 placeholder='Last Name'
                                 placeholderTextColor={COLORS.black}
-                                onChangeText={(text) => setFormData({ ...formData, LName: text })}
+                                value={formData.lastname}
+                                onChangeText={(text) => setFormData({ ...formData, lastname: text })}
                                 style={{
                                     width: "100%"
                                 }}
@@ -161,7 +210,7 @@ const Signup = ({ navigation }) => {
                                     <TextInput
                                         placeholder='YYYY-MM-DD'
                                         placeholderTextColor={COLORS.black}
-                                        value={Birthday}
+                                        value={birthday}
                                         onChangeText={setBirthday}
                                         editable={false}
                                         style={{
@@ -193,8 +242,154 @@ const Signup = ({ navigation }) => {
                             <TextInput
                                 placeholder='Age'
                                 placeholderTextColor={COLORS.black}
-                                onChangeText={(text) => setFormData({ ...formData, Age: text })}
+                                value={formData.age}
+                                onChangeText={(text) => setFormData({ ...formData, age: text })}
                                 keyboardType='numeric'
+                                style={{
+                                    width: "100%"
+                                }}
+                            />
+                        </View>
+                    </View>
+
+                    <View style={{ marginBottom: 12 }}>
+                        <Text style={{
+                            fontSize: 16,
+                            fontWeight: 400,
+                            marginVertical: 8
+                        }}>Gender</Text>
+
+                        <View style={{
+                            width: "100%",
+                            height: 48,
+                            borderColor: COLORS.black,
+                            borderWidth: 1,
+                            borderRadius: 8,
+                            alignItems: "center",
+                            justifyContent: "center",
+                            paddingLeft: 22
+                        }}>
+                            <TextInput
+                                placeholder='Gender'
+                                placeholderTextColor={COLORS.black}
+                                value={formData.gender}
+                                onChangeText={(text) => setFormData({ ...formData, gender: text })}
+                                style={{
+                                    width: "100%"
+                                }}
+                            />
+                        </View>
+                    </View>
+
+                    <View style={{ marginBottom: 12 }}>
+                        <Text style={{
+                            fontSize: 16,
+                            fontWeight: 400,
+                            marginVertical: 8
+                        }}>Address</Text>
+
+                        <View style={{
+                            width: "100%",
+                            height: 48,
+                            borderColor: COLORS.black,
+                            borderWidth: 1,
+                            borderRadius: 8,
+                            alignItems: "center",
+                            justifyContent: "center",
+                            paddingLeft: 22
+                        }}>
+                            <TextInput
+                                placeholder='Address'
+                                placeholderTextColor={COLORS.black}
+                                value={formData.address}
+                                onChangeText={(text) => setFormData({ ...formData, address: text })}
+                                style={{
+                                    width: "100%"
+                                }}
+                            />
+                        </View>
+                    </View>
+
+                    <View style={{ marginBottom: 12 }}>
+                        <Text style={{
+                            fontSize: 16,
+                            fontWeight: 400,
+                            marginVertical: 8
+                        }}>Marital Status</Text>
+
+                        <View style={{
+                            width: "100%",
+                            height: 48,
+                            borderColor: COLORS.black,
+                            borderWidth: 1,
+                            borderRadius: 8,
+                            alignItems: "center",
+                            justifyContent: "center",
+                            paddingLeft: 22
+                        }}>
+                            <TextInput
+                                placeholder='Status'
+                                placeholderTextColor={COLORS.black}
+                                value={formData.user_status}
+                                onChangeText={(text) => setFormData({ ...formData, user_status: text })}
+                                style={{
+                                    width: "100%"
+                                }}
+                            />
+                        </View>
+                    </View>
+
+                    <View style={{ marginBottom: 12 }}>
+                        <Text style={{
+                            fontSize: 16,
+                            fontWeight: 400,
+                            marginVertical: 8
+                        }}>Student Number</Text>
+
+                        <View style={{
+                            width: "100%",
+                            height: 48,
+                            borderColor: COLORS.black,
+                            borderWidth: 1,
+                            borderRadius: 8,
+                            alignItems: "center",
+                            justifyContent: "center",
+                            paddingLeft: 22
+                        }}>
+                            <TextInput
+                                placeholder='Student Number'
+                                placeholderTextColor={COLORS.black}
+                                value={formData.student_number}
+                                onChangeText={(text) => setFormData({ ...formData, student_number: text })}
+                                style={{
+                                    width: "100%"
+                                }}
+                            />
+                        </View>
+                    </View>
+
+                    <View style={{ marginBottom: 12 }}>
+                        <Text style={{
+                            fontSize: 16,
+                            fontWeight: 400,
+                            marginVertical: 8
+                        }}>Department</Text>
+
+                        <View style={{
+                            width: "100%",
+                            height: 48,
+                            borderColor: COLORS.black,
+                            borderWidth: 1,
+                            borderRadius: 8,
+                            alignItems: "center",
+                            justifyContent: "center",
+                            paddingLeft: 22
+                        }}>
+                            <TextInput
+                                placeholder='Department'
+                                placeholderTextColor={COLORS.black}
+                                value={formData.department}
+                                onChangeText={(text) => setFormData({ ...formData, department: text })}
                                 style={{
                                     width: "100%"
                                 }}
@@ -222,7 +417,8 @@ const Signup = ({ navigation }) => {
                             <TextInput
                                 placeholder='Enter your email address'
                                 placeholderTextColor={COLORS.black}
-                                onChangeText={(text) => setFormData({ ...formData, UserEmail: text })}
+                                value={formData.email}
+                                onChangeText={(text) => setFormData({ ...formData, email: text })}
                                 keyboardType='email-address'
                                 style={{
                                     width: "100%"
@@ -251,7 +447,8 @@ const Signup = ({ navigation }) => {
                             <TextInput
                                 placeholder='Enter your password'
                                 placeholderTextColor={COLORS.black}
-                                onChangeText={(text) => setFormData({ ...formData, UserPassword: text })}
+                                value={formData.password}
+                                onChangeText={(text) => setFormData({ ...formData, password: text })}
                                 secureTextEntry={isPasswordShown}
                                 style={{
                                     width: "100%"
@@ -285,7 +482,7 @@ const Signup = ({ navigation }) => {
                             style={{ marginRight: 8 }}
                             value={isChecked}
                             onValueChange={setIsChecked}
-                            color={isChecked ? COLORS.bg : undefined}
+                            color={isChecked ? COLORS.primary : undefined}
                         />
 
                         <Text>I aggree to the terms and conditions</Text>
@@ -391,7 +588,7 @@ const Signup = ({ navigation }) => {
                         >
                             <Text style={{
                                 fontSize: 16,
-                                color: COLORS.darkerBg,
+                                color: COLORS.primary,
                                 fontWeight: "bold",
                                 marginLeft: 6
                             }}>Login</Text>

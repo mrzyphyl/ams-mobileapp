@@ -1,8 +1,8 @@
 import { View, Text, Pressable, Image } from 'react-native'
 import React from 'react'
-import { LinearGradient } from "expo-linear-gradient";
-import COLORS from '../constants/colors';
-import Button from '../components/Button';
+import { LinearGradient } from "expo-linear-gradient"
+import COLORS from '../constants/colors'
+import Button from '../components/Button'
 
 const Welcome = ({ navigation }) => {
 
@@ -11,7 +11,7 @@ const Welcome = ({ navigation }) => {
             style={{
                 flex: 1
             }}
-            colors={[COLORS.bg, COLORS.darkerBg]}
+            colors={[COLORS.secondary, COLORS.primary]}
         >
             <View style={{ flex: 1 }}>
                 <View>
@@ -118,7 +118,6 @@ const Welcome = ({ navigation }) => {
                         title="Join Now"
                         onPress={() => navigation.navigate("Signup")}
                         style={{
-                            backgroundColor: COLORS.bg,
                             marginTop: 22,
                             width: "100%"
                         }}

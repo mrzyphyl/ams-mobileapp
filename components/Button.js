@@ -3,10 +3,10 @@ import React from 'react'
 import COLORS from '../constants/colors'
 
 const Button = (props) => {
-    const filledBgColor = props.color || COLORS.darkerBg;
-    const outlinedColor = COLORS.darkerBg;
+    const filledBgColor = props.color || COLORS.primary;
+    const outlinedColor = COLORS.white;
     const bgColor = props.filled ? filledBgColor : outlinedColor;
-    const textColor = props.filled ? COLORS.white : COLORS.white;
+    const textColor = props.filled ? COLORS.white : COLORS.primary;
 
     return (
         <TouchableOpacity
