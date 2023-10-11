@@ -8,7 +8,7 @@ import Button from '../components/Button'
 import axios from 'axios'
 import AsyncStorage from '@react-native-async-storage/async-storage'
 
-const Login = ({ navigation }) => {
+const Login = ({navigation}) => {
     const [isPasswordShown, setIsPasswordShown] = useState(false)
     const [isChecked, setIsChecked] = useState(false)
     const [email, setEmail] = useState('')
@@ -23,6 +23,7 @@ const Login = ({ navigation }) => {
             try {
                 await AsyncStorage.setItem('userData', JSON.stringify(response.data))
                 console.log('Login successful:', response.data)
+                navigation.navigate('Home')
             } catch (error) {
                 console.error('Error saving data to AsyncStorage:', error)
             }

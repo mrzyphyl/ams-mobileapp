@@ -1,7 +1,7 @@
 {
   "expo": {
-    "name": "login-register-ui",
-    "slug": "login-register-ui",
+    "name": "ams-mobile",
+    "slug": "ams-mobile",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
