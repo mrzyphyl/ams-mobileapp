@@ -65,7 +65,7 @@ const Attendance = ({navigation}) => {
     try {
       await AsyncStorage.clear()
       console.log('All items removed from AsyncStorage.')
-      navigation.navigate( 'Welcome' )
+      navigation.navigate('Welcome')
     } catch (error) {
       console.error(`Error clearing AsyncStorage: ${error}`)
     }

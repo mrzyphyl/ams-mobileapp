@@ -26,7 +26,7 @@ const Login = () => {
             try {
                 await AsyncStorage.setItem('userData', JSON.stringify(response.data))
                 console.log('Login successful:', response.data)
-                navigation.navigate('Home')
+                navigation.navigate('HomeTab')
             } catch (error) {
                 console.error('Error saving data to AsyncStorage:', error)
             }
