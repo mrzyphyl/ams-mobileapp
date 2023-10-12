@@ -9,6 +9,7 @@ import { StyleSheet } from 'react-native'
 import COLORS from './constants/colors'
 import { View } from 'react-native'
 import { Image } from 'react-native'
+import { ActivityIndicator } from 'react-native'
 
 const Stack = createNativeStackNavigator()
 const Tab = createBottomTabNavigator()
@@ -85,8 +86,18 @@ function HomeStack() {
   )
 }
 
+
+export function LoadingScreen() {
+  return (
+    <View style={styles.container}>
+      <ActivityIndicator size="large" color="#0000ff" />
+    </View>
+  )
+}
+
 export default function App() {
   const [userIsLoggedIn, setUserIsLoggedIn] = useState(false)
+  const [isLoading, setIsLoading] = useState(true)
 
   // Check the user's login status when the app starts
   useEffect(() => {
@@ -99,15 +110,21 @@ export default function App() {
         }
       } catch (error) {
         console.error('Error checking login status:', error)
+      } finally {
+        setIsLoading(false); // Mark loading as complete, whether successful or not
       }
-    };
+    }
 
     checkLoginStatus()
   }, [])
 
+  if (isLoading) {
+    return <LoadingScreen />
+  }
+
   return (
     <NavigationContainer>
-      <Stack.Navigator initialRouteName={userIsLoggedIn ? "HomeTab" : "Welcome"}>
+      <Stack.Navigator initialRouteName={userIsLoggedIn ? "HomeScreen" : "Welcome"}>
         <Stack.Screen name="Welcome" component={Welcome} options={{ headerShown: false }} />
         <Stack.Screen name="Login" component={Login} options={{ headerShown: false }} />
         <Stack.Screen name="Signup" component={Signup} options={{ headerShown: false }} />
@@ -162,5 +179,11 @@ const styles = StyleSheet.create({
   tabBarIcon: {
     width: 50,
     height: 50,
-  }
+  },
+
+  container: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
 })
