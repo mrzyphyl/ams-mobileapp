@@ -77,7 +77,7 @@ function TabStack() {
 
 function HomeStack() {
   return (
-    <Stack.Navigator initialRouteName='Home'>
+    <Stack.Navigator>
       <Stack.Screen name="Home" component={Home} options={{ headerShown: false }} />
       <Stack.Screen name="QRScanner" component={QRScanner} options={{ headerShown: false }} />
       <Stack.Screen name="Attendance" component={Attendance} options={{ headerShown: false }} />
@@ -85,16 +85,6 @@ function HomeStack() {
   )
 }
 
-function AuthStack() {
-  return(
-    <Stack.Navigator initialRouteName='Welcome'>
-      <Stack.Screen name="Welcome" component={Welcome} options={{ headerShown: false }} />
-      <Stack.Screen name="Login" component={Login} options={{ headerShown: false }} />
-      <Stack.Screen name="Signup" component={Signup} options={{ headerShown: false }} />
-    </Stack.Navigator>
-  )
-}
- 
 export default function App() {
   const [userIsLoggedIn, setUserIsLoggedIn] = useState(false)
 
@@ -117,11 +107,12 @@ export default function App() {
 
   return (
     <NavigationContainer>
-      {!userIsLoggedIn ? (
-        <AuthStack name="Landing" component={AuthStack} />
-      ) : (
-        <TabStack name="Main" component={TabStack} />
-      )}
+      <Stack.Navigator initialRouteName={userIsLoggedIn ? "HomeTab" : "Welcome"}>
+        <Stack.Screen name="Welcome" component={Welcome} options={{ headerShown: false }} />
+        <Stack.Screen name="Login" component={Login} options={{ headerShown: false }} />
+        <Stack.Screen name="Signup" component={Signup} options={{ headerShown: false }} />
+        <Stack.Screen name="HomeScreen" component={TabStack} options={{ headerShown: false }} />
+      </Stack.Navigator>
     </NavigationContainer>
   )
 }
