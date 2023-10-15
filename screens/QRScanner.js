@@ -62,7 +62,7 @@ const QRScanner = ({navigation}) => {
 
       try {
         console.log(Attendance)
-        axios.post(`http://192.168.1.65:5000/api/student-user-attendance/attendance/add/${filteredAttendance[0]._id}`, {
+        axios.post(`https://ams-webservice.onrender.com/api/student-user-attendance/attendance/add/${filteredAttendance[0]._id}`, {
           ...Attendance,
           headers: {
             'Content-Type': 'application/json',

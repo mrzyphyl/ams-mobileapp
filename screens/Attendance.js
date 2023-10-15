@@ -24,7 +24,7 @@ const Attendance = ({navigation}) => {
         if (userString) {
           const userData = JSON.parse(userString)
           setUserData(userData)
-          axios.get('http://192.168.1.65:5000/api/student-user-attendance/attendance')
+          axios.get('https://ams-webservice.onrender.com/api/student-user-attendance/attendance')
           .then((result) => {
             console.log('Attendance Data:', result.data)
             setAttendanceData(result.data)

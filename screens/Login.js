@@ -18,7 +18,7 @@ const Login = () => {
     const navigation = useNavigation()
 
     const onLogin = () => {
-        axios.post('http://192.168.1.65:5000/api/student-user/login', {
+        axios.post('https://ams-webservice.onrender.com/api/student-user/login', {
             email: email, 
             password: password
         })

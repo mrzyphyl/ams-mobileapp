@@ -53,7 +53,7 @@ const Signup = ({ navigation }) => {
     }
 
     const handleSignUp = () => {
-        axios.post('http://192.168.1.65:5000/api/student-user', {
+        axios.post('https://ams-webservice.onrender.com/api/student-user', {
             ...formData, birthday
         })
         .then((response) => {
